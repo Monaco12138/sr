@@ -1,0 +1,50 @@
+train_dataset:
+  dataset:
+    name: paired-image-folders
+    args:
+      root_path_1: /home/ubuntu/data/DIV2K/DIV2K/DIV2K_train_LR_bicubic/X2_1-800
+      root_path_2: /home/ubuntu/data/DIV2K/DIV2K/DIV2K_train_HR1-800
+      repeat: 20
+      cache: in_memory
+  wrapper:
+    name: sr-implicit-paired
+    args:
+      inp_size: 48
+      augment: true
+  batch_size: 32
+
+val_dataset:
+  dataset:
+    name: paired-image-folders
+    args:
+      root_path_1: /home/ubuntu/data/DIV2K/DIV2K/DIV2K_train_LR_bicubic/X2_801-900
+      root_path_2: /home/ubuntu/data/DIV2K/DIV2K/DIV2K_valid_HR801-900
+      repeat: 160
+      cache: in_memory
+  wrapper:
+    name: sr-implicit-paired
+    args:
+      inp_size: 48
+  batch_size: 32
+
+data_norm:
+  inp: {sub: [0.5], div: [0.5]}
+  gt: {sub: [0.5], div: [0.5]}
+
+model:
+    name: edsr_baseline
+    args:
+      scale: 2
+    
+
+optimizer:
+  name: adam
+  args:
+    lr: 1.e-4
+epoch_max: 600
+multi_step_lr:
+  milestones: [200, 400, 600]
+  gamma: 0.5
+
+epoch_val: 1
+epoch_save: 100

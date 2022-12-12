@@ -1,0 +1,8 @@
+# speed analysis on div2k1-900
+    |   half    |   full    |
+time|   82.08s  |   135.987s|
+psnr|   34.4654 |   34.4662 |
+
+#   (32,3,224,224), 100 loops average
+    |   tensorRT |  FP32    |   FP16
+time|   6.28ms   |  31.5ms  |   19.4ms

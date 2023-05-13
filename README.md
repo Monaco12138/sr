@@ -101,5 +101,4 @@ def train(train_loader, model, optimizer):
 1. 测试时选择好对应的config文件和保存的模型位置。
 2. 测试结果只在终端print。
 ***
-## temp
-文件夹中装有临时测试文件，可无视
+

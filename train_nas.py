@@ -212,10 +212,10 @@ def main(config_, save_path):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--config', default="./configs/train/train_patchSR.yaml")
-    parser.add_argument('--name', default='Vlogs')
-    parser.add_argument('--tag', default='playback2_patchSR_replicate')
-    parser.add_argument('--gpu', default='0,1')
+    parser.add_argument('--config', default="./configs/train/train_edsr.yaml")
+    parser.add_argument('--name', default='Challenge')
+    #parser.add_argument('--tag', default='playback2_patchSR_replicate')
+    parser.add_argument('--gpu', default='0')
     args = parser.parse_args()
 
     os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
@@ -224,14 +224,35 @@ if __name__ == '__main__':
         config = yaml.load(f, Loader=yaml.FullLoader)
         print('config loaded.')
 
+    #-- parse --#
+    video_class = args.name
+    lr = '540p'
+    hr = 'origin'
     save_name = args.name
+    scale = 4
 
-    if save_name is None:        # 将config文件作为保存文件名
-        save_name = '_' + args.config.split('/')[-1][:-len('.yaml')]        
+    frame_root = config['train_dataset']['dataset']['args']['root_path_1']
+    lr_frame_path = os.path.join( frame_root, video_class, lr )
+    hr_frame_path = os.path.join( frame_root, video_class, hr )
 
-    if args.tag is not None:       
-        save_name += '_' + args.tag
+    blocks = 8
+    features = 48
 
-    save_path = os.path.join('/home/ubuntu/data/main/tableSR/model', save_name)
+    #
+    config['train_dataset']['dataset']['args']['root_path_1'] = lr_frame_path
+    config['train_dataset']['dataset']['args']['root_path_2'] = hr_frame_path
+    config['val_dataset']['dataset']['args']['root_path_1'] = lr_frame_path
+    config['val_dataset']['dataset']['args']['root_path_2'] = hr_frame_path
+
+    #
+    config['model']['args']['n_resblocks'] = blocks
+    config['model']['args']['n_feats'] = features
+    config['model']['args']['scale'] = scale
+
+    save_root = '/home/ubuntu/data/home/main/SR_Test/models'
+
+    save_path = os.path.join(save_root, save_name)
+    # if not os.path.exists( save_path ):
+    #     os.makedirs( save_path )
 
     main(config, save_path)

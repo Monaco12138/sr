@@ -51,8 +51,18 @@ ___需注意的部分：___
                 augment: true
         batch_size: 32
     ```
-2. 默认数据处理类中, in_memory表示将图片保存在内存中, repeat表示重复遍历数据集次数
+2. 相关参数含义:
 
+    + __dataset.args__
+        + _root_path_1_: 训练用低清图片(lr)的路径
+        + _root_path_2_: 训练用高清图片(hr)的路径 
+        + _repeat_: 表示1个epoch内重复遍历数据集次数，如果数据集图片较少可以提高 _repeat_
+        + _cache_: 
+            + in_memory：表示将数据集存储在内存中，如果内存够大可以用这个，会加快训练速度
+            + none: 在训练时才从磁盘中读取数据，训练速度较慢
+    + __wrapper.args__
+        + _inp_size_: 表示训练时输入图片的大小，一般SR网络训练时会对输入图片进行一定程度的裁剪，常见的裁剪大小是(48,48)
+        + _augment_: 表示是否对训练图片加入旋转，上下颠倒，左右颠倒等变化，适当的增加训练图片的变化可以提高模型泛化行
 ***
 ## train&test
 ### train: 
@@ -91,5 +101,4 @@ def train(train_loader, model, optimizer):
 1. 测试时选择好对应的config文件和保存的模型位置。
 2. 测试结果只在终端print。
 ***
-## temp
-文件夹中装有临时测试文件，可无视
+

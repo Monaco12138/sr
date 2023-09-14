@@ -125,3 +125,11 @@ if __name__ == '__main__':
 
     print( "total time consumed: {}s".format(end - start) )
     print('psnr result: {:.4f}'.format(res))
+
+#-- load model --#
+# model_root_path = '/home/ubuntu/data/main/tableSR/model2/channelSR'
+# model_path = os.path.join( model_root_path, video_class, video_number, '540p_1080raw', 'epoch-best.pth')
+# model = edsr.make_channelSR(scale=scale)
+# model_spec = torch.load( model_path )['model']
+# model.load_state_dict( model_spec['sd'] )
+# model = model.cuda()

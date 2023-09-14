@@ -213,9 +213,9 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--config', default="./configs/train/train_edsr.yaml")
-    parser.add_argument('--name', default='Challenge')
+    parser.add_argument('--name', default='Unboxing')
     #parser.add_argument('--tag', default='playback2_patchSR_replicate')
-    parser.add_argument('--gpu', default='0')
+    parser.add_argument('--gpu', default='2')
     args = parser.parse_args()
 
     os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
